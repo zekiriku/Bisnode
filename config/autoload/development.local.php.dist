@@ -15,8 +15,24 @@
  * You may also create files matching the glob pattern `{,*.}{global,local}-development.php`.
  */
 
+use Zend\Session\Storage\SessionArrayStorage;
+use Zend\Session\Validator\HttpUserAgent;
+use Zend\Session\Validator\RemoteAddr;
+
 return [
     'view_manager' => [
         'display_exceptions' => true,
+    ],
+    // Session manager configuration.
+    'session_manager' => [
+        // Session validators (used for security).
+        'validators' => [
+            RemoteAddr::class,
+            HttpUserAgent::class,
+        ]
+    ],
+    // Session storage configuration.
+    'session_storage' => [
+        'type' => SessionArrayStorage::class
     ],
 ];

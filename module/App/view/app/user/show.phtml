@@ -1,0 +1,25 @@
+<h1>User info
+    <a class="btn btn-primary" href="<?= $this->url('user', ['action' => 'edit', 'id' => $user->id]) ?>">Edit</a>
+    <a class="btn btn-danger" href="<?= $this->url('user', ['action' => 'delete', 'id' => $user->id]) ?>">Delete</a>
+</h1>
+
+<div class="row">
+    <div class="col-xs-12 col-sm-2 bg-info">ID</div>
+    <div class="col-xs-12 col-sm-10"><?= $this->escapeHtml($user->id) ?></div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-sm-2 bg-info">First name</div>
+    <div class="col-xs-12 col-sm-10"><?= $this->escapeHtml($user->firstname) ?></div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-sm-2 bg-info">Last name</div>
+    <div class="col-xs-12 col-sm-10"><?= $this->escapeHtml($user->lastname) ?></div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-sm-2 bg-info">Email</div>
+    <div class="col-xs-12 col-sm-10"><?= $this->escapeHtml($user->email) ?></div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-sm-2 bg-info">Position</div>
+    <div class="col-xs-12 col-sm-10"><?= $this->escapeHtml($user->position) ?></div>
+</div>
