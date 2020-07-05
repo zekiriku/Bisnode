@@ -1,0 +1,9 @@
+<div class="row">
+    <div class="col-sm-12">
+        <h1>Users Ajax</h1>
+    </div>
+</div>
+<?=
+$this->headScript()->appendFile('/js/ajax.js');
+echo $this->partial('userList.phtml');
+?>

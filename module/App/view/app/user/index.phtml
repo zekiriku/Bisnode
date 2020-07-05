@@ -1,32 +1,6 @@
-<h1>Users
-    <a class="btn btn-primary" href="<?= $this->url('user', ['action' => 'add']) ?>">New</a>
-</h1>
-<table class="table dataTable">
-    <thead>
-        <tr>
-            <th>#</th>
-            <th>firstname</th>
-            <th>lastname</th>
-            <th>email</th>
-            <th>position</th>
-            <th>action</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach ($users as $user) : ?>
-            <tr>
-                <td><?= $this->escapeHtml($user->id) ?></td>
-                <td><?= $this->escapeHtml($user->firstname) ?></td>
-                <td><?= $this->escapeHtml($user->lastname) ?></td>
-                <td><?= $this->escapeHtml($user->email) ?></td>
-                <td><?= $this->escapeHtml($user->position) ?></td>
-                <td>
-                    <a class="btn btn-default" href="<?= $this->url('user', ['action' => 'show', 'id' => $user->id]) ?>">Show</a>
-                    <a class="btn btn-primary" href="<?= $this->url('user', ['action' => 'edit', 'id' => $user->id]) ?>">Edit</a>
-                    <a class="btn btn-danger" href="<?= $this->url('user', ['action' => 'delete', 'id' => $user->id]) ?>">Delete</a>
-                </td>
-            </tr>
-        <?php endforeach; ?>
-    </tbody>
-</table>
-
+<div class="row">
+    <div class="col-sm-12">
+        <h1>Users</h1>
+    </div>
+</div>
+<?php echo $this->partial('userList.phtml');;?>

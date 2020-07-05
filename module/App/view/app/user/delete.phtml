@@ -16,7 +16,13 @@ $this->headTitle($title);
 <form action="<?= $url ?>" method="post">
     <div class="form-group">
         <input type="hidden" name="id" value="<?= $user->id ?>" />
-        <input type="submit" class="btn btn-danger" name="del" value="Yes" />
-        <input type="submit" class="btn btn-success" name="del" value="No" />
+        <?php
+        if($showBtn) {
+        ?>
+            <input type="submit" class="btn btn-danger" name="del" value="Yes" />
+            <input type="submit" class="btn btn-success" name="del" value="No" />
+        <?php
+        }
+        ?>
     </div>
 </form>

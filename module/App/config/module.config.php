@@ -47,8 +47,20 @@ return [
             ],
             [
                 'label' => 'Users',
-                'route' => 'user'
-            ]
+                'route' => 'user',
+                'pages' => [
+                    [
+                        'label'  => 'Normal',
+                        'route'  => 'user',
+                        'action' => 'index',
+                    ],
+                    [
+                        'label'  => 'Ajax',
+                        'route'  => 'user',
+                        'action' => 'ajax',
+                    ],
+                ],
+            ],
         ],
     ],
     'view_manager' => [
@@ -65,6 +77,9 @@ return [
         ],
         'template_path_stack' => [
             __DIR__ . '/../view',
+        ],
+        'strategies' => [
+            'ViewJsonStrategy',
         ],
     ],
 ];

@@ -51,7 +51,9 @@ echo $this->form()->openTag($form);
     <?= $this->formElementErrors()->render($position, ['class' => 'help-block']) ?>
 </div>
 <?php
-echo $this->formSubmit($submit);
+if($showBtn) {
+    echo $this->formSubmit($submit);
+}
 echo $this->formHidden($form->get('id'));
 echo $this->formHidden($form->get('csrf'));
 echo $this->form()->closeTag();

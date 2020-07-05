@@ -1,6 +1,12 @@
 <h1>User info
+    <?php
+    if($showBtn){
+    ?>
     <a class="btn btn-primary" href="<?= $this->url('user', ['action' => 'edit', 'id' => $user->id]) ?>">Edit</a>
     <a class="btn btn-danger" href="<?= $this->url('user', ['action' => 'delete', 'id' => $user->id]) ?>">Delete</a>
+    <?php
+    }
+    ?>
 </h1>
 
 <div class="row">
