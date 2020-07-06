@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\form\UserForm;
 use App\Model\User;
+use App\Model\UserTable;
 use Zend\Http\Response;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
@@ -13,7 +14,7 @@ class UserController extends AbstractActionController
 {
     private $table;
 
-    public function __construct($table)
+    public function __construct(UserTable $table)
     {
         $this->table = $table;
     }
@@ -36,7 +37,7 @@ class UserController extends AbstractActionController
     {
         $users = $this->table->fetchAll();
         $data = [
-            'data' => $users
+            'data' => $users->toArray()
         ];
         $view = new JsonModel($data);
         $view->setTerminal(true);

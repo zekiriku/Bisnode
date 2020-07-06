@@ -2,6 +2,9 @@
 namespace App;
 
 
+use Zend\Db\Adapter\AdapterInterface;
+use Zend\Db\ResultSet\ResultSet;
+use Zend\Db\TableGateway\TableGateway;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
 
 class Module implements ConfigProviderInterface
@@ -17,7 +20,14 @@ class Module implements ConfigProviderInterface
         return [
             'factories' => [
                 Model\UserTable::class => function($container) {
-                    return new Model\UserTable();
+                    $tableGateway = $container->get(Model\UserTableGateway::class);
+                    return new Model\UserTable($tableGateway);
+                },
+                Model\UserTableGateway::class => function($container){
+                    $dbAdapter = $container->get(AdapterInterface::class);
+                    $resultSetPrototype = new ResultSet();
+                    $resultSetPrototype->setArrayObjectPrototype(new Model\User());
+                    return new TableGateway('user', $dbAdapter, null, $resultSetPrototype);
                 },
             ],
         ];
@@ -27,9 +37,11 @@ class Module implements ConfigProviderInterface
     {
         return [
             'factories' => [
-                Controller\UserController::class => function($container){
-                    return new Controller\UserController($container->get(Model\UserTable::class));
-                },
+                Controller\UserController::class => function($container) {
+                    return new Controller\UserController(
+                        $container->get(Model\UserTable::class)
+                    );
+                }
             ],
         ];
     }
