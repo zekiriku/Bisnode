@@ -8,6 +8,7 @@ use App\form\UserForm;
 use App\Model\User;
 use Zend\Http\Response;
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
 
 class UserController extends AbstractActionController
@@ -31,6 +32,24 @@ class UserController extends AbstractActionController
         return new ViewModel([
             'users' => $this->table->fetchAll(),
         ]);
+    }
+
+    public function getUsersJsonAction()
+    {
+        $users = $this->table->fetchAll();
+        $data = [
+            'data' => $users
+        ];
+        $view = new JsonModel($data);
+        $view->setTerminal(true);
+        return $view;
+    }
+
+    public function urlAction()
+    {
+        $view = new ViewModel();
+        $view->setTerminal(true);
+        return $view;
     }
 
     public function showAction()
@@ -69,13 +88,16 @@ class UserController extends AbstractActionController
 
 
         if(! $form->isValid()){
-            return $this->handleAjaxRequest($view);
+            return $this->handleInvalidForm($view);
         }
 
         $user->exchangeArray($form->getData());
         $this->table->saveUser($user);
-        $this->flashMessenger()->addSuccessMessage(sprintf('User : %s %s has been added', $user->firstname, $user->lastname));
-        return $this->redirect()->toRoute('user', ['action' => 'index']);
+
+        $flashMessage = sprintf('User : %s %s has been added', $user->firstname, $user->lastname);
+        $route = 'user';
+        $action = ['action' => 'index'];
+        return $this->handleValidForm($flashMessage,$route,$action);
 
     }
 
@@ -111,12 +133,15 @@ class UserController extends AbstractActionController
         $form->setData($request->getPost());
 
         if(! $form->isValid()){
-            return $this->handleAjaxRequest($view);
+            return $this->handleInvalidForm($view);
         }
 
         $this->table->saveUser($user);
-        $this->flashMessenger()->addSuccessMessage(sprintf('User : %s %s has been updated', $user->firstname, $user->lastname));
-        return $this->redirect()->toRoute('user', ['action' => 'index']);
+
+        $flashMessage = sprintf('User : %s %s has been updated', $user->firstname, $user->lastname);
+        $route = 'user';
+        $action = ['action' => 'index'];
+        return $this->handleValidForm($flashMessage,$route,$action);
 
     }
 
@@ -138,16 +163,50 @@ class UserController extends AbstractActionController
             if($del === 'Yes'){
                 $id = $request->getPost('id');
                 $this->table->deleteUser($id);
+                $flashMessage = sprintf('User : %s %s has been deleted', $user->firstname, $user->lastname);
+            } else {
+                $flashMessage = false;
             }
-            $this->flashMessenger()->addSuccessMessage(sprintf('User : %s %s has been deleted', $user->firstname, $user->lastname));
+            $route = 'user';
+            $action = ['action' => 'index'];
+            return $this->handleValidForm($flashMessage,$route,$action);
 
-            return $this->redirect()->toRoute('user', ['action' => 'index']);
         }
         $view = new ViewModel([
                 'id' => $id,
                 'user' => $this->table->getUser($id),
             ]);
         return $this->handleAjaxRequest($view);
+    }
+
+    private function handleInvalidForm($view)
+    {
+        if ($this->getRequest()->isXmlHttpRequest()) {
+            $view->setTerminal(true);
+            $view->setVariable('showBtn', false);
+            $this->getResponse()->setStatusCode(400);
+        } else {
+            $view->setVariable('showBtn', true);
+        }
+        return $view;
+
+    }
+
+    private function handleValidForm($message, $route, $action)
+    {
+        if ($this->getRequest()->isXmlHttpRequest()) {
+            $data = [
+                'message' => $message
+            ];
+            $view = new JsonModel($data);
+            $view->setTerminal(true);
+            return $view;
+        } else {
+            if($message){
+                $this->flashMessenger()->addSuccessMessage($message);
+            }
+            return $this->redirect()->toRoute($route, $action);
+        }
     }
 
     private function handleUserNotFound($id)

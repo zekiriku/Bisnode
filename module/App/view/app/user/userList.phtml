@@ -16,20 +16,6 @@
     </tr>
     </thead>
     <tbody>
-    <?php foreach ($users as $user) : ?>
-        <tr>
-            <td><?= $this->escapeHtml($user->id) ?></td>
-            <td><?= $this->escapeHtml($user->firstname) ?></td>
-            <td><?= $this->escapeHtml($user->lastname) ?></td>
-            <td><?= $this->escapeHtml($user->email) ?></td>
-            <td><?= $this->escapeHtml($user->position) ?></td>
-            <td>
-                <a class="btn btn-default" data-action-btn="false" data-action-btn-type="none" href="<?= $this->url('user', ['action' => 'show', 'id' => $user->id]) ?>">Show</a>
-                <a class="btn btn-primary" data-action-btn="true" data-action-btn-class="btn-primary" data-action-btn-title="Update" href="<?= $this->url('user', ['action' => 'edit', 'id' => $user->id]) ?>">Edit</a>
-                <a class="btn btn-danger" data-action-btn="true" data-action-btn-class="btn-danger" data-action-btn-title="Yes"  href="<?= $this->url('user', ['action' => 'delete', 'id' => $user->id]) ?>">Delete</a>
-            </td>
-        </tr>
-    <?php endforeach; ?>
     </tbody>
 </table>
 

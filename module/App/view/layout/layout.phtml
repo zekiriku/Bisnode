@@ -21,6 +21,7 @@
 
         <!-- Scripts -->
         <?= $this->inlineScript()
+            ->prependFile($this->url('user', ['action' => 'url']))
             ->prependFile($this->basePath('js/app.js'))
             ->prependFile($this->basePath('js/datatables.min.js'))
             ->prependFile($this->basePath('js/bootstrap.min.js'))
@@ -51,6 +52,7 @@
         </nav>
 
         <div class="container">
+            <div class="flashmessage-ajax"></div>
             <?php
                 $flash = $this->flashMessenger();
                 $flash->setMessageOpenFormat('<div%s>
