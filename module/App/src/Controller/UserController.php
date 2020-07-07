@@ -2,7 +2,7 @@
 namespace App\Controller;
 
 
-use App\form\UserForm;
+use App\Form\UserForm;
 use App\Model\User;
 use App\Model\UserTable;
 use Zend\Http\Response;
