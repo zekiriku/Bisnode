@@ -1,7 +1,7 @@
 $( document ).ready(function() {
     var table = $('.dataTable').DataTable({
         "ajax": {
-            "url": 'http://localhost:8080/user/getUsersJson',
+            "url": userUrls.users,
             "dataSrc": "data",
             "dataType": "json",
             "contentType": "application/json; charset=utf-8"
